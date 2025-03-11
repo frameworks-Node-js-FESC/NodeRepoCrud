@@ -36,9 +36,36 @@ app.get("/consulta",(req,res) => {
     
 })
 app.get("/eliminar",(req,res) =>{
+    var no = req.query.no;
+    console.log("elimnando el " + no )
+    conn.connect(function(err) {
+        console.log("conectado")
+        if (err) throw err;
+        var sql = "DELETE FROM Clientes WHERE noCuenta = " + no + ";"
+        conn.query(sql,function(err,result){
+            if (err) throw err;
+            console.log("Number of records deleted: " + result.affectedRows);
+            res.json({"status":"eliminado"})
+
+
+        })
+    })
 
 })
 app.get("/crear",(req,res) =>{
+    var no = req.query.no;
+    var pin = req.query.pin;
+    var dinero = req.query.din;
+    conn.connect(function(err){
+        var sql = "INSERT INTO Clientes (noCuenta, pin,dinero) VALUES (" + no + "," + pin + "," + dinero + ")" + ";"
+        conn.query(sql,function(err,result){
+            if(err) throw err;
+            console.log("insertado")
+            res.json({"status":"insertado"})
+
+        })
+    })
+
 
 })
 
